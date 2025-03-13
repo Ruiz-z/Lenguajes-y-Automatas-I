@@ -1,0 +1,25 @@
+123abc  45xyz/  678&A  
+B_1  
+a1
+m23/	z999$$
+h5$$$$
+p7$$
+&nombre  
+%variable123  
+ABC_def_45  
+MAYUSCULAS_99  
+%prueba_2024  
+&Identificador1  
+X_Y_Z_123  
+&VALOR_&TEST  
+abc  
+1Variable  
+_variable  
+&*texto  
+Prueba@123  
+__inicio  
+123ABC  
+&&&nombre  
+X%-variable  
+MAYUS-cul4
+
