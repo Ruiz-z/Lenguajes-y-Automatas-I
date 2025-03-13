@@ -63,9 +63,6 @@ A_9a,lenguaje3
     static String archivoEntrada = "C:/Users/Mauro/Desktop/.A/Automatas/src/U3/Entrada.txt";
     static List<String> palabrasDeArchivo = new ArrayList<>();
     static String archivoSalida = "C:/Users/Mauro/Desktop/.A/Automatas/src/U3/Salida.txt";
-    static List<String> palabrasValidas = new ArrayList<>();
-    static List<String> palabrasInvalidas = new ArrayList<>();
-
     static File archivo = new File(archivoSalida);
 
     //Validacion de archivo
