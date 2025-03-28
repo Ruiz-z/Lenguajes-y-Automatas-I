@@ -60,8 +60,11 @@ public class practica4 {
             return false;
         }
     }
+
+
     private static void logicaLectura(String linea, int numLinea) {
-        Pattern er = Pattern.compile("\".*?\"|/\\*.*?\\*/|-?\\d+\\.\\d+|-?\\d+|&&|\\|\\||!|==|!=|<=|>=|<|>|\\+|-|\\*|/|%|=|[(),;:\\[\\]]|[a-z][a-zA-Z0-9_]*|\\s+");
+        Pattern er = Pattern.compile(
+                "\".*?\"|/\\*.*?\\*/|-?\\d+\\.\\d+|-?\\d+\\.|-?\\d+|&&|\\|\\||!|==|!=|<=|>=|<|>|\\+|-|\\*|/|%|=|[(),;:\\[\\]]|[a-z][a-zA-Z0-9_]*|\\s+");
         Matcher matcher = er.matcher(linea);
         int start = 0;
         while (matcher.find()) {
@@ -79,7 +82,6 @@ public class practica4 {
             palabrasArchivo.addLast(new infoPalabra(linea.substring(start).trim(), 0, 0, start, numLinea));
         }
     }
-
 
     private static void esIdentificadores(infoPalabra palabra) {
         String identificador = palabra.getPalabra();
@@ -214,9 +216,9 @@ public class practica4 {
         }
     }
 
-    private static void esNumerosDecimales(infoPalabra palabra) {
+   private static void esNumerosDecimales(infoPalabra palabra) {
         String nD = palabra.getPalabra();
-        if (nD.matches("-?\\d+(\\.)\\d+")) {
+        if (nD.matches("-?\\d+\\.\\d+")) {
             palabra.setIdentificador(-1);
             palabra.setToken(-62);
         }
@@ -287,9 +289,9 @@ public class practica4 {
         }
     }
 
-    private static void esOperadorLogico(infoPalabra palabra) {
+   private static void esOperadorLogico(infoPalabra palabra) {
         String OpL = palabra.getPalabra();
-        if (OpL.matches("|&&|\\|\\||!")) {
+        if (OpL.matches("&&|\\|\\||!")) {
             palabra.setIdentificador(-1);
             switch (OpL) {
                 case "&&":
@@ -307,7 +309,7 @@ public class practica4 {
         }
 
     }
-    private static void esComentarios(infoPalabra palabra) {
+  private static void esComentarios(infoPalabra palabra) {
         String comentario = palabra.getPalabra();
         //A los comentarios no se le ponen token porque no es una accion como tal
         if (comentario.matches("/\\*.*?\\*/")) {
@@ -329,10 +331,17 @@ public class practica4 {
         }
     }
 
-    private static void erroresLexico() {
+  private static void erroresLexico() {
         for (infoPalabra palabra : palabrasArchivo) {
+            // Solo se agregan los tokens que sean errores y que no sean espacios
             if (palabra.getToken() == 0 && !palabra.getPalabra().matches("\\s+")) {
-                erroresArchivo.add(new infoPalabra(palabra.getPalabra(), palabra.getToken(), palabra.getIdentificador(), palabra.getPosicion()));
+                erroresArchivo.add(new infoPalabra(
+                        palabra.getPalabra(),
+                        palabra.getToken(),
+                        palabra.getIdentificador(),
+                        palabra.getPosicion(),
+                        palabra.getLinea()
+                ));
             }
         }
     }
