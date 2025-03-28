@@ -400,6 +400,7 @@ public class practica4 {
     }
 
 
+  
     public static void tablaErrores(){
         try {
             BufferedWriter bw = new BufferedWriter(new FileWriter("C:/Users/Mauro/Desktop/.A/Automatas/src/U4/Tabla de errores.txt"));
@@ -407,7 +408,7 @@ public class practica4 {
                 if (palabra.getPalabra().matches("/\\*.*?\\*/")) {
                     continue;
                 }
-                bw.write("Error en la línea: " + palabra.getPosicion() + ". En la palabra: " + palabra.getPalabra());
+                bw.write("Error en la línea: " + palabra.getLinea() + ". En la palabra: " + palabra.getPalabra());
                 bw.newLine();
             }
             bw.close();
@@ -415,7 +416,6 @@ public class practica4 {
             JOptionPane.showMessageDialog(null, "Problemas para escribir el archivo de errores");
         }
     }
-
     private static void escribirArchivo() {
         tablaTokens();
         tablaErrores();
