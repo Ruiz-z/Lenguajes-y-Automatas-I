@@ -12,16 +12,21 @@ public class practica4 {
     static String entrada = "C:/Users/Mauro/Desktop/.A/Automatas/src/U4/Entrada.txt";
     static ArrayList<infoPalabra> palabrasArchivo = new ArrayList<>();
     static ArrayList<infoPalabra> erroresArchivo = new ArrayList<>();
+    
+   public static void main(String[] args) {
+            if (leerArchivo()){
+                analisisLexico();
+                agruparErrores();
+                erroresLexico();
+                escribirArchivo();
+            }
+            if (!erroresArchivo.isEmpty() || !palabrasArchivo.isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Hay errores que revisar en tabla de errores");
+            } else {
+                JOptionPane.showMessageDialog(null, "No hay errores en la tabla de errores");
+            }
 
-    public static void main(String[] args) {
-        if (leerArchivo()){
-            analisisLexico();
-            agruparErrores();
-            erroresLexico();
-            escribirArchivo();
         }
-    }
-
     private static boolean VerificarContenido() {
         try {
             FileReader fr = new FileReader(entrada);
