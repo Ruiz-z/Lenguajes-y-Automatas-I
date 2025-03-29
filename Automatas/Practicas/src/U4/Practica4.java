@@ -62,9 +62,24 @@ public class practica4 {
     }
 
 
-    private static void logicaLectura(String linea, int numLinea) {
+       private static void logicaLectura(String linea, int numLinea) {
         Pattern er = Pattern.compile(
-                "\".*?\"|/\\*.*?\\*/|-?\\d+\\.\\d+|-?\\d+\\.|-?\\d+|&&|\\|\\||!|==|!=|<=|>=|<|>|\\+|-|\\*|/|%|=|[(),;:\\[\\]]|[a-z][a-zA-Z0-9_]*|\\s+");
+                "\".*?\""
+                        + "|/\\*[^*]*(?:\\*+[^/*])*"
+                        + "|\\*/"
+                        + "|/\\*.*?\\*/"
+                        + "|-?\\d+[a-zA-Z_][a-zA-Z0-9_]*"
+                        + "|-?\\d+\\.\\d+"
+                        + "|-?\\d+\\."
+                        + "|-?\\d+"
+                        + "|&&|\\|\\||!|==|!=|<=|>=|<|>"
+                        + "|\\+|-|\\*|/|%|="
+                        + "|[(),;:\\[\\]]"
+                        + "|[a-zA-Z_][a-zA-Z0-9_]*"
+                        + "|\\s+"
+                
+        );
+        
         Matcher matcher = er.matcher(linea);
         int start = 0;
         while (matcher.find()) {
@@ -82,7 +97,6 @@ public class practica4 {
             palabrasArchivo.addLast(new infoPalabra(linea.substring(start).trim(), 0, 0, start, numLinea));
         }
     }
-
     private static void esIdentificadores(infoPalabra palabra) {
         String identificador = palabra.getPalabra();
         if (identificador.matches("[a-z][a-zA-Z0-9_]*")) {
