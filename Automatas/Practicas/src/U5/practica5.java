@@ -84,8 +84,8 @@ public class practica5 {
 
 
     public static int inicio(LinkedList<infoPalabra> listaTokens, int numLinea) throws validarException {
-       numLinea = programa(listaTokens, numLinea);
-       numLinea = bloquePrincipal(listaTokens, numLinea);
+        numLinea = programa(listaTokens, numLinea);
+        numLinea = bloquePrincipal(listaTokens, numLinea);
         return numLinea;
     }
 
@@ -313,7 +313,7 @@ public class practica5 {
 
     public static int subprograma(LinkedList<infoPalabra> listaTokens,
                                   int numLinea) throws validarException {
-         int copiaLinea = numLinea;
+        int copiaLinea = numLinea;
         int tok = listaTokens.get(copiaLinea).getToken();
 
         if (tok == -18 ) {
@@ -380,15 +380,15 @@ public class practica5 {
                 numLinea++;
                 // (
                 if (listaTokens.get(numLinea).getToken() == -71) {
-                   numLinea++;
+                    numLinea++;
                     // parámetros (pueden ser vacíos, o tener lista de parámetros)
                     numLinea = parametros(listaTokens, numLinea);
                     // )
                     if (listaTokens.get(numLinea).getToken() == -72) {
-                       numLinea++;
+                        numLinea++;
                         // :
                         if (listaTokens.get(numLinea).getToken() == -75) {
-                           numLinea++;
+                            numLinea++;
                             // tipo
                             numLinea = tipo(listaTokens, numLinea);
                             // cuerpo de la función
@@ -451,34 +451,31 @@ public class practica5 {
     }
 
 
-    public static int instrucciones(LinkedList<infoPalabra> listaTokens,
-                                    int numLinea) throws validarException {
-        // Mientras podamos reconocer una instrucción seguida de ';', la consumimos
-        while (true) {
-            // 1) Lee una instrucción
-            numLinea = instruccion(listaTokens, numLinea);
-            // 2) Asegúrate de que venga el ';'
-            if (listaTokens.get(numLinea).getToken() != -73) {
-                throw new validarException(
-                        "Error en la línea " + listaTokens.get(numLinea).getLinea() +
-                                ": se esperaba ';' tras instrucción");
-            }
-            numLinea++;  // consume ';'
+    public static int instrucciones(LinkedList<infoPalabra> listaTokens, int numLinea) throws validarException {
+        // 1) <instruccion>
+        numLinea = instruccion(listaTokens, numLinea);
 
-            // 3) Mira si la siguiente posición **puede** ser el comienzo
-            //    de otra instrucción (identificador, if, while, read, write, etc.).
-            //    Como no tienes un método tipo esInicioDeInstruccion(),
-            //    usa try/catch pero sobre una copia y **avanzada**:
-            int prueba = numLinea;
+        // 2) ";"
+        if (numLinea >= listaTokens.size() || listaTokens.get(numLinea).getToken() != -73) {
+            int linea = (numLinea < listaTokens.size())
+                    ? listaTokens.get(numLinea).getLinea()
+                    : listaTokens.get(listaTokens.size() - 1).getLinea();
+            throw new validarException("Error en la línea " + linea + ": se esperaba ';' tras la instrucción");
+        }
+
+        numLinea++; // consumimos ';'
+
+        // 3) ¿Hay otra instrucción?
+        if (numLinea < listaTokens.size()) {
             try {
-                prueba = instruccion(listaTokens, prueba);
-                // si llegamos aquí y no saltó excepción, hay otra instrucción:
-                continue;  // volvemos al while para consumirla
+                int prueba = instruccion(listaTokens, numLinea);
+                // Si fue válida, procesamos el resto recursivamente
+                numLinea = instrucciones(listaTokens, numLinea);
             } catch (validarException e) {
-                // no era una instrucción válida → salimos del bucle
-                break;
+                // No hay más instrucciones válidas, terminamos aquí
             }
         }
+
         return numLinea;
     }
 
